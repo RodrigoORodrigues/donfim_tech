@@ -5,7 +5,7 @@ export default function Footer() {
     <footer>
       <div className="footer-inner">
         <div className="flex items-center gap-2">
-          <span className="text-xl font-bold font-display text-white tracking-widest hidden sm:inline-block">DONFIM<span className="text-[#00D4FF]">TECH</span></span>
+          <img src="/Donfimtech.png" alt="Donfim Tech" className="h-[44px] object-contain" referrerPolicy="no-referrer" />
         </div>
 
         <p>© 2018 - 2026 Donfim Tech. Construindo o futuro digital.</p>

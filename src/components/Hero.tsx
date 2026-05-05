@@ -7,7 +7,8 @@ export default function Hero() {
           Construindo o Alicerce Digital
         </div>
 
-        <div className="hero-logo mb-10 w-full max-w-[480px] mx-auto hidden">
+        <div className="hero-logo mb-10 w-full max-w-[480px] mx-auto">
+          <img src="/Donfimtech.png" alt="Donfim Tech" className="w-full h-auto object-contain drop-shadow-2xl" referrerPolicy="no-referrer" />
         </div>
 
         <h1>

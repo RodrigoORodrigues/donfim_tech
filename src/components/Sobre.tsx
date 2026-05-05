@@ -12,7 +12,8 @@ export default function Sobre() {
             transition={{ duration: 0.7 }}
             className="sobre-visual"
           >
-            <div className="sobre-img-wrap hidden">
+            <div className="sobre-img-wrap">
+              <img src="/Donfimtech.png" alt="Donfim Tech" className="w-full max-w-[400px] mx-auto block object-contain" referrerPolicy="no-referrer" />
             </div>
             <div className="sobre-badge">
               <span className="num">100%</span>

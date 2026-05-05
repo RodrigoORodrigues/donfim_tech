@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,23 +33,33 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-white p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        <button className="md:hidden text-white p-2 relative z-50 rounded-full hover:bg-white/10 transition-colors" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-40 bg-[#050810]/95 backdrop-blur-[20px] flex flex-col items-center justify-center gap-8 pt-20">
-          <a href="#servicos" className="text-[#F0F4FF] font-display text-2xl font-semibold tracking-[0.08em] uppercase hover:text-[#00D4FF] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Serviços</a>
-          <a href="#sobre" className="text-[#F0F4FF] font-display text-2xl font-semibold tracking-[0.08em] uppercase hover:text-[#00D4FF] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Sobre</a>
-          <a href="#sistemas" className="text-[#F0F4FF] font-display text-2xl font-semibold tracking-[0.08em] uppercase hover:text-[#00D4FF] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Sistemas</a>
-          <a href="#faq" className="text-[#F0F4FF] font-display text-2xl font-semibold tracking-[0.08em] uppercase hover:text-[#00D4FF] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>FAQ</a>
-          <a href="#contato" className="btn-primary mt-4" onClick={() => setIsMobileMenuOpen(false)}>
-            Falar com Especialista
-          </a>
-        </div>
-      )}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="md:hidden fixed inset-0 z-40 bg-[#050810]/98 backdrop-blur-2xl flex flex-col items-center justify-center pt-20"
+          >
+            <div className="flex flex-col items-center w-full max-w-sm px-6 gap-2">
+              <a href="#servicos" className="w-full text-center py-5 text-[#F0F4FF] font-display text-xl sm:text-2xl font-semibold tracking-[0.08em] uppercase hover:text-[#00D4FF] hover:bg-white/5 active:bg-white/10 rounded-2xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>Serviços</a>
+              <a href="#sobre" className="w-full text-center py-5 text-[#F0F4FF] font-display text-xl sm:text-2xl font-semibold tracking-[0.08em] uppercase hover:text-[#00D4FF] hover:bg-white/5 active:bg-white/10 rounded-2xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>Sobre</a>
+              <a href="#sistemas" className="w-full text-center py-5 text-[#F0F4FF] font-display text-xl sm:text-2xl font-semibold tracking-[0.08em] uppercase hover:text-[#00D4FF] hover:bg-white/5 active:bg-white/10 rounded-2xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>Sistemas</a>
+              <a href="#faq" className="w-full text-center py-5 text-[#F0F4FF] font-display text-xl sm:text-2xl font-semibold tracking-[0.08em] uppercase hover:text-[#00D4FF] hover:bg-white/5 active:bg-white/10 rounded-2xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>FAQ</a>
+              <a href="#contato" className="btn-primary mt-6 w-full max-w-[280px] h-[54px] flex items-center justify-center text-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                Falar com Especialista
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

@@ -227,13 +227,13 @@ body::after {
 .service-card::before {
     content: ''; position: absolute;
     inset: 0; border-radius: 20px;
-    background: linear-gradient(135deg, rgba(0,102,255,.05));
+    background: linear-gradient(135deg, rgba(0,102,255,.05), transparent);
     opacity: 0; transition: opacity .4s;
 }
 .service-card::after {
     content: ''; position: absolute;
     top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-cyan));
+    background: linear-gradient(90deg, transparent, var(--color-cyan), transparent);
     opacity: 0; transition: opacity .4s;
 }
 .service-card:hover {
@@ -313,7 +313,7 @@ body::after {
     font-family: 'Oxanium', sans-serif; font-size: 2rem;
     font-weight: 800; color: var(--color-cyan); display: block; line-height: 1;
 }
-.sobre-badge .lbl { font-size: 12px; color: var(--color-white); letter-spacing: .08em; text-transform: uppercase; }
+.sobre-badge .lbl { font-size: 12px; color: var(--color-silver); letter-spacing: .08em; text-transform: uppercase; }
 
 .sobre-content {}
 .sobre-content .section-title { margin-bottom: 20px; }
@@ -356,7 +356,7 @@ body::after {
 }
 .faq-btn:hover { color: var(--color-cyan); }
 .faq-icon {
-    font-size: 20px; color: var(--color-white); flex-shrink: 0;
+    font-size: 20px; color: var(--color-silver); flex-shrink: 0;
     transition: transform .3s ease, color .3s;
 }
 
@@ -365,7 +365,7 @@ body::after {
     transition: max-height .4s ease, padding .4s ease;
     padding: 0 26px;
 }
-.faq-body p { padding-bottom: 22px; font-size: 14px; color: var(--color-white); line-height: 1.85; margin: 0; }
+.faq-body p { padding-bottom: 22px; font-size: 14px; color: var(--color-silver); line-height: 1.85; margin: 0; }
 .faq-item.active .faq-body { max-height: 200px; }
 
 /* ─── CTA ─── */
@@ -403,7 +403,7 @@ footer img { height: 36px; object-fit: contain; }
 footer p { font-size: 13px; color: #4A5568; margin: 0; }
 .footer-links { display: flex; gap: 20px; }
 .footer-links a {
-    font-size: 13px; color: var(--color-white); text-decoration: none;
+    font-size: 13px; color: var(--color-silver); text-decoration: none;
     transition: color .2s;
 }
 .footer-links a:hover { color: var(--color-cyan); }

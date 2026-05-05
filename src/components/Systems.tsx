@@ -10,6 +10,7 @@ const Truck = ({ className }: { className?: string }) => <svg xmlns="http://www.
 const Megaphone = ({ className }: { className?: string }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>;
 const CheckCircle2 = ({ className }: { className?: string }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>;
 const ArrowRight = ({ className }: { className?: string }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>;
+const Wallet = ({ className }: { className?: string }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>;
 
 const systems = [
   {
@@ -177,6 +178,34 @@ const systems = [
         price: 'R$ 997',
         period: '/mês',
         features: ['Contatos Ilimitados', 'Copys Geradas via IA', 'Funis de Afiliados', 'Suporte Especialista', 'Sem limites'],
+      }
+    ]
+  },
+  {
+    id: 'finance',
+    name: 'Don Finance',
+    icon: Wallet,
+    description: 'Plataforma completa para gestão de finanças pessoais e corporativas com análise inteligente e previsibilidade financeira.',
+    color: 'from-green-400 to-emerald-600',
+    plans: [
+      {
+        name: 'Pessoal',
+        price: 'R$ 49',
+        period: '/mês',
+        features: ['Gestão de Despesas', 'Orçamento Mensal', 'Metas Financeiras', 'Gráficos e Relatórios'],
+      },
+      {
+        name: 'Corporativo',
+        price: 'R$ 397',
+        period: '/mês',
+        popular: true,
+        features: ['Fluxo de Caixa', 'Conciliação Bancária', 'Multi-contas', 'Emissão de Boletos/NFS-e', 'Até 5 Usuários'],
+      },
+      {
+        name: 'Enterprise',
+        price: 'Personalizado',
+        period: '',
+        features: ['Múltiplos CNPJs', 'Integração Contábil', 'Dashboard Gestão de Risco', 'Consultoria Especializada', 'Usuários Ilimitados'],
       }
     ]
   }

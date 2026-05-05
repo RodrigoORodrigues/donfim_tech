@@ -17,8 +17,9 @@ export default function BackgroundEffects() {
 
     let cursorRafId: number;
     function animCursor() {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
+      // Much smoother trail following
+      rx += (mx - rx) * 0.08;
+      ry += (my - ry) * 0.08;
       if (dot) { dot.style.left = mx + 'px'; dot.style.top = my + 'px'; }
       if (ring) { ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; }
       cursorRafId = requestAnimationFrame(animCursor);
@@ -63,7 +64,10 @@ export default function BackgroundEffects() {
             y: Math.random() * window.innerHeight,
             vx: (Math.random() - 0.5) * 0.4,
             vy: (Math.random() - 0.5) * 0.4,
-            r: Math.random() * 1.8 + 0.4
+            baseR: Math.random() * 1.8 + 0.6,
+            pulsePhase: Math.random() * Math.PI * 2,
+            pulseSpeed: Math.random() * 0.02 + 0.01,
+            r: 1
           });
         }
 
@@ -72,11 +76,13 @@ export default function BackgroundEffects() {
           ctx.clearRect(0, 0, W, H);
           particles.forEach(p => {
             p.x += p.vx; p.y += p.vy;
+            p.pulsePhase += p.pulseSpeed;
+            p.r = p.baseR * (1 + Math.sin(p.pulsePhase) * 0.5); // Pulsating effect
             if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
             if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(0,180,255,.6)';
+            ctx.fillStyle = `rgba(0,180,255,${0.4 + Math.sin(p.pulsePhase) * 0.2})`;
             ctx.fill();
           });
           for (let i = 0; i < particles.length; i++) {

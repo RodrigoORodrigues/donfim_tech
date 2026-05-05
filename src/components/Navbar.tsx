@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
+import Logo from '../assets/Donfimtech.png';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,7 +19,7 @@ export default function Navbar() {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${isScrolled ? 'bg-[#050810]/85 backdrop-blur-[20px] border-b border-[#00D4FF]/15 py-0' : 'bg-transparent py-2'}`}>
       <div className="max-w-[1200px] mx-auto px-6 h-[80px] flex items-center justify-between">
         <a href="#" className="flex items-center gap-2 group nav-logo">
-          <img src="/Donfimtech.png?v=2" alt="Donfim Tech" className="h-[48px] md:h-[56px] object-contain" referrerPolicy="no-referrer" />
+          <img src={Logo} alt="Donfim Tech" className="h-[48px] md:h-[56px] object-contain" referrerPolicy="no-referrer" />
         </a>
 
         {/* Desktop Menu */}

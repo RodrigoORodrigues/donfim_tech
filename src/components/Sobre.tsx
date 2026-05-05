@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import Logo from '../assets/Donfimtech.png';
 
 export default function Sobre() {
   return (
@@ -13,7 +14,7 @@ export default function Sobre() {
             className="sobre-visual"
           >
             <div className="sobre-img-wrap">
-              <img src="/Donfimtech.png?v=2" alt="Donfim Tech" className="w-full max-w-[400px] mx-auto block object-contain" referrerPolicy="no-referrer" />
+              <img src={Logo} alt="Donfim Tech" className="w-full max-w-[400px] mx-auto block object-contain" referrerPolicy="no-referrer" />
             </div>
             <div className="sobre-badge">
               <span className="num">100%</span>

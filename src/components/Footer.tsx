@@ -1,12 +1,11 @@
 import { Mail } from 'lucide-react';
-import logoUrl from '../assets/Donfimtech.png';
 
 export default function Footer() {
   return (
     <footer>
       <div className="footer-inner">
         <div className="flex items-center gap-2">
-          <img src={logoUrl} alt="Donfim Tech" className="h-[44px] object-contain" referrerPolicy="no-referrer" />
+          <span className="text-xl font-bold font-display text-white tracking-widest hidden sm:inline-block">DONFIM<span className="text-[#00D4FF]">TECH</span></span>
         </div>
 
         <p>© 2018 - 2026 Donfim Tech. Construindo o futuro digital.</p>

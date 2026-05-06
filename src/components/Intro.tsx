@@ -62,7 +62,7 @@ export default function Intro({ onComplete, onFadeStart }: IntroProps) {
               // If video is not found, just finish the intro after a short delay
               setTimeout(handleEnd, 2000);
             }}
-            className="w-[65vw] md:w-[55vw] lg:w-[45vw] max-h-[85vh] object-contain relative z-0" // smaller video size
+            className="w-[35vw] md:w-[28vw] lg:w-[20vw] max-h-[85vh] object-contain relative z-0" // smaller video size
             style={{ 
               maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 65%)',
               WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 65%)'

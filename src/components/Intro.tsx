@@ -35,14 +35,15 @@ export default function Intro({ onComplete, onFadeStart }: IntroProps) {
     <AnimatePresence onExitComplete={onComplete}>
       {!isVideoEnded && (
         <motion.div
-          initial={{ opacity: 1, scale: 1, y: 0, borderRadius: "0px" }}
+          initial={{ opacity: 1, scale: 1, y: 0, x: 0, borderRadius: "0px" }}
           exit={{ 
             opacity: 0, 
-            scale: 0.05, 
-            y: "-30vh",
+            scale: 0.02, 
+            y: "-45vh",
+            x: "-40vw",
             borderRadius: "100%",
-            filter: "blur(15px) brightness(1.5)",
-            transition: { duration: 1.4, ease: [0.76, 0, 0.24, 1] } 
+            filter: "blur(10px) brightness(1.5)",
+            transition: { duration: 0.6, ease: [0.7, 0, 0.1, 1] } 
           }}
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#010b1a] overflow-hidden origin-center"
         >

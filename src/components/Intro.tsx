@@ -13,13 +13,13 @@ export default function Intro({ onComplete, onFadeStart }: IntroProps) {
   useEffect(() => {
     // Increase play speed
     if (videoRef.current) {
-      videoRef.current.playbackRate = 2.0;
+      videoRef.current.playbackRate = 3.0;
     }
     
     // Fallback in case the video fails to load or play
     const timer = setTimeout(() => {
       handleEnd();
-    }, 5000); // adjust maximum duration
+    }, 3500); // adjust maximum duration
 
     return () => clearTimeout(timer);
   }, []);
@@ -44,7 +44,7 @@ export default function Intro({ onComplete, onFadeStart }: IntroProps) {
             filter: "blur(15px) brightness(1.5)",
             transition: { duration: 1.4, ease: [0.76, 0, 0.24, 1] } 
           }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black overflow-hidden origin-center"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#010b1a] overflow-hidden origin-center"
         >
           {/* 
             User instruction: Upload the attached video to the 'public' folder 
@@ -61,10 +61,10 @@ export default function Intro({ onComplete, onFadeStart }: IntroProps) {
               // If video is not found, just finish the intro after a short delay
               setTimeout(handleEnd, 2000);
             }}
-            className="w-[85vw] md:w-[75vw] lg:w-[65vw] max-h-[85vh] object-contain relative z-0" // smaller video size
+            className="w-[65vw] md:w-[55vw] lg:w-[45vw] max-h-[85vh] object-contain relative z-0" // smaller video size
             style={{ 
-              maskImage: 'radial-gradient(ellipse at center, black 45%, transparent 70%)',
-              WebkitMaskImage: 'radial-gradient(ellipse at center, black 45%, transparent 70%)'
+              maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 65%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 65%)'
             }}
           />
           <div className="absolute bottom-10 left-0 right-0 flex justify-center z-10">

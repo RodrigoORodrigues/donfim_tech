@@ -4,42 +4,6 @@ export default function BackgroundEffects() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    // ── CURSOR ──
-    const dot = document.getElementById('cursor-dot');
-    const ring = document.getElementById('cursor-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    
-    const mouseMoveHandler = (e: MouseEvent) => {
-      mx = e.clientX; 
-      my = e.clientY; 
-    };
-    document.addEventListener('mousemove', mouseMoveHandler);
-
-    let cursorRafId: number;
-    function animCursor() {
-      // Much smoother trail following
-      rx += (mx - rx) * 0.08;
-      ry += (my - ry) * 0.08;
-      if (dot) { dot.style.left = mx + 'px'; dot.style.top = my + 'px'; }
-      if (ring) { ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; }
-      cursorRafId = requestAnimationFrame(animCursor);
-    }
-    animCursor();
-
-    const hoverEnter = () => { if (ring) { ring.style.width = '56px'; ring.style.height = '56px'; ring.style.borderColor = 'rgba(0,212,255,.8)'; } };
-    const hoverLeave = () => { if (ring) { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.borderColor = 'rgba(0,212,255,.5)'; } };
-    
-    const applyHoverListeners = () => {
-      document.querySelectorAll('a, button').forEach(el => {
-        el.addEventListener('mouseenter', hoverEnter);
-        el.addEventListener('mouseleave', hoverLeave);
-      });
-    };
-    applyHoverListeners();
-
-    const observer = new MutationObserver(() => applyHoverListeners());
-    observer.observe(document.body, { childList: true, subtree: true });
-
     // ── CANVAS PARTICLES ──
     const canvas = canvasRef.current;
     let canvasRafId: number;
@@ -107,13 +71,6 @@ export default function BackgroundEffects() {
     }
 
     return () => {
-      document.removeEventListener('mousemove', mouseMoveHandler);
-      cancelAnimationFrame(cursorRafId);
-      observer.disconnect();
-      document.querySelectorAll('a, button').forEach(el => {
-        el.removeEventListener('mouseenter', hoverEnter);
-        el.removeEventListener('mouseleave', hoverLeave);
-      });
       if (resizeHandler) window.removeEventListener('resize', resizeHandler);
       cancelAnimationFrame(canvasRafId);
     };
@@ -121,10 +78,6 @@ export default function BackgroundEffects() {
 
   return (
     <>
-      <div className="hidden md:block">
-        <div id="cursor-dot"></div>
-        <div id="cursor-ring"></div>
-      </div>
       <div className="orb orb-1"></div>
       <div className="orb orb-2"></div>
       <div className="orb orb-3"></div>

@@ -24,32 +24,12 @@ body {
   background-color: var(--color-dark);
   color: var(--color-silver);
   overflow-x: hidden;
-  cursor: auto;
+  cursor: url('/cursor-normal.png') 0 0, auto;
 }
 
-@media (min-width: 768px) {
-  body {
-    cursor: none;
-  }
+a, button, [role="button"], input[type="submit"], input[type="button"], input[type="reset"] {
+  cursor: url('/cursor-hand.png') 14 0, pointer; /* 14 0 offsets if needed, assuming the hand pointer tip */
 }
-
-/* ─── CUSTOM CURSOR ─── */
-#cursor-dot {
-    position: fixed; width: 8px; height: 8px;
-    background: var(--color-cyan); border-radius: 50%;
-    pointer-events: none; z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width .15s, height .15s, background .15s;
-    box-shadow: 0 0 12px var(--color-cyan), 0 0 24px var(--color-cyan);
-}
-#cursor-ring {
-    position: fixed; width: 36px; height: 36px;
-    border: 1.5px solid rgba(0,212,255,0.5);
-    border-radius: 50%; pointer-events: none; z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: all .08s ease-out;
-}
-body:hover #cursor-dot { opacity: 1; }
 
 /* ─── NOISE OVERLAY ─── */
 body::before {
@@ -346,14 +326,12 @@ body::after {
 
 .faq-btn {
     width: 100%; text-align: left; padding: 22px 26px;
-    background: none; border: none; cursor: auto;
+    background: none; border: none; cursor: url('/cursor-hand.png') 14 0, pointer;
     display: flex; align-items: center; justify-content: space-between; gap: 16px;
     font-size: 15px; font-weight: 600; color: var(--color-white);
     transition: color .2s;
 }
-@media (min-width: 768px) {
-  .faq-btn { cursor: none; }
-}
+
 .faq-btn:hover { color: var(--color-cyan); }
 .faq-icon {
     font-size: 20px; color: var(--color-silver); flex-shrink: 0;

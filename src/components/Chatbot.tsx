@@ -10,6 +10,9 @@ let aiClient: GoogleGenAI | null = null;
 function getAI(): GoogleGenAI {
   if (!aiClient) {
     const key = process.env.GEMINI_API_KEY;
+    if (!key) {
+      console.error("GEMINI_API_KEY is missing! Make sure it is defined in the environment.");
+    }
     aiClient = new GoogleGenAI({ apiKey: key || 'missing_key' });
   }
   return aiClient;

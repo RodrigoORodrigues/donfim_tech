@@ -3,24 +3,9 @@ import '@testing-library/jest-dom';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import Chatbot from '../Chatbot';
 
-// Mock process.env properties
-process.env.GEMINI_API_KEY = 'test-key';
-
-const { mockSendMessage } = vi.hoisted(() => ({
-  mockSendMessage: vi.fn(),
-}));
-
-vi.mock('@google/genai', () => {
-  return {
-    GoogleGenAI: class {
-      chats = {
-        create: vi.fn().mockReturnValue({
-          sendMessage: mockSendMessage,
-        }),
-      };
-    },
-  };
-});
+// Mock fetch
+const mockFetch = vi.fn();
+global.fetch = mockFetch;
 
 describe('Chatbot Component', () => {
   beforeEach(() => {
@@ -47,8 +32,9 @@ describe('Chatbot Component', () => {
   });
 
   it('envia texto, renderiza a mensagem do usuário e recebe resposta mockada', async () => {
-    mockSendMessage.mockResolvedValue({
-      text: 'Resposta do modelo simulada',
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ text: 'Resposta do modelo simulada' })
     });
 
     await openChat();
@@ -80,7 +66,7 @@ describe('Chatbot Component', () => {
     const pendingPromise = new Promise((resolve) => {
       resolveMock = resolve;
     });
-    mockSendMessage.mockReturnValue(pendingPromise);
+    mockFetch.mockReturnValue(pendingPromise);
 
     await openChat();
     
@@ -95,7 +81,10 @@ describe('Chatbot Component', () => {
     expect(screen.getByText('Digitando...')).toBeInTheDocument();
 
     // Resolve a promise para obter a resposta do mock
-    resolveMock!({ text: 'Entre em contato pelo WhatsApp.' });
+    resolveMock!({
+      ok: true,
+      json: async () => ({ text: 'Entre em contato pelo WhatsApp.' })
+    });
 
     // Verifica se a resposta foi renderizada
     await waitFor(() => {

@@ -1,22 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, X, Send, User, Bot, Loader2 } from 'lucide-react';
-import { GoogleGenAI } from '@google/genai';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-
-let aiClient: GoogleGenAI | null = null;
-
-function getAI(): GoogleGenAI {
-  if (!aiClient) {
-    const key = process.env.GEMINI_API_KEY;
-    if (!key) {
-      console.error("GEMINI_API_KEY is missing! Make sure it is defined in the environment.");
-    }
-    aiClient = new GoogleGenAI({ apiKey: key || 'missing_key' });
-  }
-  return aiClient;
-}
 
 const SUGGESTIONS = [
   "Quais serviços vocês oferecem?",
@@ -32,25 +18,7 @@ export default function Chatbot() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const chatRef = useRef<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Initialize chat session
-  useEffect(() => {
-    if (!chatRef.current) {
-      try {
-        const ai = getAI();
-        chatRef.current = ai.chats.create({
-          model: "gemini-3-flash-preview",
-          config: {
-            systemInstruction: "Seu nome é Don. Você é a inteligência artificial assistente da Donfim Tech, uma empresa de tecnologia. Seja educado, prestativo, profissional e conciso. Responda em português do Brasil. IMPORTANTE: Você DEVE responder APENAS a perguntas relacionadas à Donfim Tech, sistemas de gestão, desenvolvimento web, aplicativos e demais serviços e produtos que a empresa oferece. Se o usuário fizer uma pergunta fora desse contexto (como receitas, política, programação não relacionada ao projeto, etc.), você DEVE educadamente dizer que só pode falar sobre os serviços da Donfim Tech e apresentar brevemente o que a empresa faz (Sistemas Web, Sites, Aplicativos). Quando fornecer o link do WhatsApp, SEMPRE use este formato exato: [Clique aqui para falar no WhatsApp](https://wa.me/5521991389523) - Nunca passe apenas o link cru. Quando oferecer opções de escolha, liste cada opção em uma nova linha começando com '=> ' (ex: '=> Mais detalhes sobre sistemas').",
-          }
-        });
-      } catch (error) {
-        console.error("Failed to initialize AI Chat", error);
-      }
-    }
-  }, []);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -61,12 +29,29 @@ export default function Chatbot() {
   const handleSendText = async (textToSend: string) => {
     if (!textToSend.trim() || isLoading) return;
 
-    setMessages(prev => [...prev, { role: 'user', text: textToSend }]);
+    const newMessages = [...messages, { role: 'user' as const, text: textToSend }];
+    setMessages(newMessages);
     setIsLoading(true);
 
     try {
-      const response = await chatRef.current.sendMessage({ message: textToSend });
-      const currentResponse = response.text || 'Desculpe, não consegui processar sua mensagem.';
+      // Pass the conversation history (excluding the new user message)
+      const historyForApi = messages.map(m => ({
+        role: m.role,
+        text: m.text
+      }));
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: textToSend, history: historyForApi })
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      const currentResponse = data.text || 'Desculpe, não consegui processar sua mensagem.';
       
       setMessages(prev => [...prev, { role: 'model', text: currentResponse }]);
     } catch (error) {

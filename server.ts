@@ -1,8 +1,8 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
-import path from "path";
+import * as path from "path";
 import { GoogleGenAI } from "@google/genai";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 
 dotenv.config();
 
@@ -65,6 +65,7 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "dist");
+
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));

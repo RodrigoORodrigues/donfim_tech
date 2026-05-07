@@ -16,6 +16,7 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import BackgroundEffects from './components/BackgroundEffects';
 import Intro from './components/Intro';
+import Chatbot from './components/Chatbot';
 
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -50,6 +51,7 @@ export default function App() {
           </main>
           <Footer />
           <ScrollToTop />
+          <Chatbot />
         </div>
       </div>
     </div>

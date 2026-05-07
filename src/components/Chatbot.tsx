@@ -5,7 +5,15 @@ import { GoogleGenAI } from '@google/genai';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+let aiClient: GoogleGenAI | null = null;
+
+function getAI(): GoogleGenAI {
+  if (!aiClient) {
+    const key = process.env.GEMINI_API_KEY;
+    aiClient = new GoogleGenAI({ apiKey: key || 'missing_key' });
+  }
+  return aiClient;
+}
 
 const SUGGESTIONS = [
   "Quais serviços vocês oferecem?",
@@ -27,12 +35,17 @@ export default function Chatbot() {
   // Initialize chat session
   useEffect(() => {
     if (!chatRef.current) {
-      chatRef.current = ai.chats.create({
-        model: "gemini-3-flash-preview",
-        config: {
-          systemInstruction: "Seu nome é Don. Você é a inteligência artificial assistente da Donfim Tech, uma empresa de tecnologia. Seja educado, prestativo, profissional e conciso. Responda em português do Brasil. IMPORTANTE: Você DEVE responder APENAS a perguntas relacionadas à Donfim Tech, sistemas de gestão, desenvolvimento web, aplicativos e demais serviços e produtos que a empresa oferece. Se o usuário fizer uma pergunta fora desse contexto (como receitas, política, programação não relacionada ao projeto, etc.), você DEVE educadamente dizer que só pode falar sobre os serviços da Donfim Tech e apresentar brevemente o que a empresa faz (Sistemas Web, Sites, Aplicativos). Quando fornecer o link do WhatsApp, SEMPRE use este formato exato: [Clique aqui para falar no WhatsApp](https://wa.me/5521991389523) - Nunca passe apenas o link cru. Quando oferecer opções de escolha, liste cada opção em uma nova linha começando com '=> ' (ex: '=> Mais detalhes sobre sistemas').",
-        }
-      });
+      try {
+        const ai = getAI();
+        chatRef.current = ai.chats.create({
+          model: "gemini-3-flash-preview",
+          config: {
+            systemInstruction: "Seu nome é Don. Você é a inteligência artificial assistente da Donfim Tech, uma empresa de tecnologia. Seja educado, prestativo, profissional e conciso. Responda em português do Brasil. IMPORTANTE: Você DEVE responder APENAS a perguntas relacionadas à Donfim Tech, sistemas de gestão, desenvolvimento web, aplicativos e demais serviços e produtos que a empresa oferece. Se o usuário fizer uma pergunta fora desse contexto (como receitas, política, programação não relacionada ao projeto, etc.), você DEVE educadamente dizer que só pode falar sobre os serviços da Donfim Tech e apresentar brevemente o que a empresa faz (Sistemas Web, Sites, Aplicativos). Quando fornecer o link do WhatsApp, SEMPRE use este formato exato: [Clique aqui para falar no WhatsApp](https://wa.me/5521991389523) - Nunca passe apenas o link cru. Quando oferecer opções de escolha, liste cada opção em uma nova linha começando com '=> ' (ex: '=> Mais detalhes sobre sistemas').",
+          }
+        });
+      } catch (error) {
+        console.error("Failed to initialize AI Chat", error);
+      }
     }
   }, []);
 

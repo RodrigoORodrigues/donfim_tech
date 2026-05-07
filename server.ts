@@ -13,6 +13,10 @@ async function startServer() {
   app.use(express.json());
 
   // API routes FIRST
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok" });
+  });
+
   app.post("/api/chat", async (req, res) => {
     try {
       const { text, history } = req.body;
@@ -29,7 +33,7 @@ async function startServer() {
       // Easiest is to send the whole formatted conversation.
       
       const chat = ai.chats.create({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         config: {
           systemInstruction: "Seu nome é Don. Você é a inteligência artificial assistente da Donfim Tech, uma empresa de tecnologia. Seja educado, prestativo, profissional e conciso. Responda em português do Brasil. IMPORTANTE: Você DEVE responder APENAS a perguntas relacionadas à Donfim Tech, sistemas de gestão, desenvolvimento web, aplicativos e demais serviços e produtos que a empresa oferece. Se o usuário fizer uma pergunta fora desse contexto (como receitas, política, programação não relacionada ao projeto, etc.), você DEVE educadamente dizer que só pode falar sobre os serviços da Donfim Tech e apresentar brevemente o que a empresa faz (Sistemas Web, Sites, Aplicativos). Quando fornecer o link do WhatsApp, SEMPRE use este formato exato: [Clique aqui para falar no WhatsApp](https://wa.me/5521991389523) - Nunca passe apenas o link cru. Quando oferecer opções de escolha, liste cada opção em uma nova linha começando com '=> ' (ex: '=> Mais detalhes sobre sistemas').",
         }
@@ -42,7 +46,7 @@ async function startServer() {
       })) : [];
       
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: [...fullHistory, { role: 'user', parts: [{ text }]}],
         config: {
           systemInstruction: "Seu nome é Don. Você é a inteligência artificial assistente da Donfim Tech, uma empresa de tecnologia. Seja educado, prestativo, profissional e conciso. Responda em português do Brasil. IMPORTANTE: Você DEVE responder APENAS a perguntas relacionadas à Donfim Tech, sistemas de gestão, desenvolvimento web, aplicativos e demais serviços e produtos que a empresa oferece. Se o usuário fizer uma pergunta fora desse contexto (como receitas, política, programação não relacionada ao projeto, etc.), você DEVE educadamente dizer que só pode falar sobre os serviços da Donfim Tech e apresentar brevemente o que a empresa faz (Sistemas Web, Sites, Aplicativos). Quando fornecer o link do WhatsApp, SEMPRE use este formato exato: [Clique aqui para falar no WhatsApp](https://wa.me/5521991389523) - Nunca passe apenas o link cru. Quando oferecer opções de escolha, liste cada opção em uma nova linha começando com '=> ' (ex: '=> Mais detalhes sobre sistemas').",
@@ -52,7 +56,14 @@ async function startServer() {
       res.json({ text: response.text });
     } catch (error: any) {
       console.error("Chat API Error:", error);
-      res.status(500).json({ error: error.message || "Failed to process chat" });
+      const isApiKeyError = error?.message?.includes('API key not valid') || error?.status === 400;
+
+      if (isApiKeyError) {
+        // Fallback for invalid API key to ensure the chatbot still functions
+        res.json({ text: "Olá! Notei que a chave da API configurada não é válida. Como assistente da Donfim Tech, posso te ajudar com dúvidas gerais sobre nossos sistemas web, aplicativos e sites. Se preferir, => Clique aqui para falar no WhatsApp" });
+      } else {
+        res.status(500).json({ error: error.message || "Failed to process chat" });
+      }
     }
   });
 

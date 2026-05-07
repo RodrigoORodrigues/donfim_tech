@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, X, Send, User, Bot, Loader2 } from 'lucide-react';
-import Markdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 
 const SUGGESTIONS = [
   "Quais serviços vocês oferecem?",
@@ -124,47 +122,29 @@ export default function Chatbot() {
                     }`}
                   >
                     {msg.role === 'model' && msg.text.includes('=>') ? (
-                      <div className="flex flex-col gap-2">
-                        {msg.text.split('\n').filter(line => !line.trim().startsWith('=>')).join('\n').trim() && (
-                          <div className="markdown-body text-sm">
-                            <Markdown 
-                              remarkPlugins={[remarkGfm]}
-                              components={{
-                                a: ({node, ...props}) => <a target="_blank" rel="noopener noreferrer" {...props} />
-                              }}
-                            >
-                              {msg.text.split('\n').filter(line => !line.trim().startsWith('=>')).join('\n').trim()}
-                            </Markdown>
+                        <div className="flex flex-col gap-2">
+                          <p className="text-sm whitespace-pre-wrap">
+                            {msg.text.split('\n').filter(line => !line.trim().startsWith('=>')).join('\n').trim()}
+                          </p>
+                          <div className="flex flex-col gap-2 mt-1">
+                            {msg.text.split('\n').filter(line => line.trim().startsWith('=>')).map((line, i) => {
+                              const optionText = line.trim().substring(2).trim().replace(/^[-*0-9.)]+\s*/, '');
+                              return (
+                                <button
+                                  key={i}
+                                  onClick={() => handleSendText(optionText)}
+                                  disabled={isLoading}
+                                  className="text-left text-sm bg-slate-700/50 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-lg px-3 py-2 transition-colors cursor-pointer"
+                                >
+                                  {optionText}
+                                </button>
+                              );
+                            })}
                           </div>
-                        )}
-                        <div className="flex flex-col gap-2 mt-1">
-                          {msg.text.split('\n').filter(line => line.trim().startsWith('=>')).map((line, i) => {
-                            const optionText = line.trim().substring(2).trim().replace(/^[-*0-9.)]+\s*/, '');
-                            return (
-                              <button
-                                key={i}
-                                onClick={() => handleSendText(optionText)}
-                                disabled={isLoading}
-                                className="text-left text-sm bg-slate-700/50 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-lg px-3 py-2 transition-colors cursor-pointer"
-                              >
-                                {optionText}
-                              </button>
-                            );
-                          })}
                         </div>
-                      </div>
-                    ) : (
-                      <div className="markdown-body text-sm">
-                        <Markdown 
-                          remarkPlugins={[remarkGfm]}
-                          components={{
-                            a: ({node, ...props}) => <a target="_blank" rel="noopener noreferrer" {...props} />
-                          }}
-                        >
-                          {msg.text}
-                        </Markdown>
-                      </div>
-                    )}
+                      ) : (
+                        <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
+                      )}
                   </div>
                 </div>
               ))}

@@ -25,7 +25,7 @@ describe('Chatbot Component', () => {
     await openChat();
     
     // Verifica se a mensagem inicial do Don é renderizada
-    expect(screen.getByText(/Olá! Sou o Don, a inteligência artificial da Donfim Tech/i)).toBeInTheDocument();
+    expect(screen.getByText(/Olá! Sou o Don, o assistente virtual da Donfim Tech/i)).toBeInTheDocument();
     
     // Verifica se as sugestões rápidas aparecem
     expect(screen.getByText('Quais serviços vocês oferecem?')).toBeInTheDocument();

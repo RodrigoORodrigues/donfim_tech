@@ -9,10 +9,26 @@ const SUGGESTIONS = [
   "Como faço para entrar em contato?"
 ];
 
+// Helper to render markdown-like links [text](url)
+const renderMessageText = (text: string) => {
+  const parts = text.split(/(\[.*?\]\(.*?\))/g);
+  return parts.map((part, i) => {
+    const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
+    if (linkMatch) {
+      return (
+        <a key={i} href={linkMatch[2]} target="_blank" rel="noopener noreferrer" className="text-cyan-400 font-medium hover:underline inline-flex items-center gap-1">
+          {linkMatch[1]}
+        </a>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
+};
+
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ role: 'user' | 'model'; text: string }[]>([
-    { role: 'model', text: 'Olá! Sou o Don, a inteligência artificial da Donfim Tech. Como posso ajudar você hoje?' }
+    { role: 'model', text: 'Olá! Sou o Don, o assistente virtual da Donfim Tech. 🤖\n\nEstou aqui para tirar suas dúvidas sobre nossos Sistemas Web, Aplicativos e Automações.\n\nComo posso ajudar você hoje?' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -124,7 +140,7 @@ export default function Chatbot() {
                     {msg.role === 'model' && msg.text.includes('=>') ? (
                         <div className="flex flex-col gap-2">
                           <p className="text-sm whitespace-pre-wrap">
-                            {msg.text.split('\n').filter(line => !line.trim().startsWith('=>')).join('\n').trim()}
+                            {renderMessageText(msg.text.split('\n').filter(line => !line.trim().startsWith('=>')).join('\n').trim())}
                           </p>
                           <div className="flex flex-col gap-2 mt-1">
                             {msg.text.split('\n').filter(line => line.trim().startsWith('=>')).map((line, i) => {
@@ -143,7 +159,7 @@ export default function Chatbot() {
                           </div>
                         </div>
                       ) : (
-                        <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
+                        <p className="text-sm whitespace-pre-wrap">{renderMessageText(msg.text)}</p>
                       )}
                   </div>
                 </div>

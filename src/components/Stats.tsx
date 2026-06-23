@@ -53,11 +53,10 @@ export default function Stats() {
           <div className="stat-label">Clientes Satisfeitos</div>
         </div>
         <div className="stat-item">
-          <div className="stat-number">
-            <CountUp target={3} />
-            <span>+</span>
+          <div className="stat-number" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.8rem)' }}>
+            <span>Inovação</span>
           </div>
-          <div className="stat-label">Anos de Experiência</div>
+          <div className="stat-label">Experiência & Expertise</div>
         </div>
       </div>
     </motion.div>

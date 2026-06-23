@@ -33,12 +33,12 @@ export default function Sobre() {
               Cada projeto começa com uma análise profunda do seu negócio. Entendemos os seus desafios, objetivos e o mercado onde atua para criar soluções que realmente fazem diferença.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.4 }} className="sobre-pills">
-              <span className="pill">React & Next.js</span>
-              <span className="pill">Node.js</span>
-              <span className="pill">Make / n8n</span>
-              <span className="pill">API Integrations</span>
-              <span className="pill">SEO Técnico</span>
-              <span className="pill">UI/UX Design</span>
+              <span className="pill">Desenvolvimento Web</span>
+              <span className="pill">Sistemas Sob Medida</span>
+              <span className="pill">Automações</span>
+              <span className="pill">Integrações Seguras</span>
+              <span className="pill">Otimização SEO</span>
+              <span className="pill">Design Intuitivo</span>
             </motion.div>
           </div>
         </div>
